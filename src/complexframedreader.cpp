@@ -53,7 +53,7 @@ ComplexFramedReader::ComplexFramedReader(QIODevice* device, QObject* parent) :
             this, &ComplexFramedReader::onSizeFieldChanged);
 
     connect(&_settingsWidget, &ComplexFramedReaderSettings::checksumChanged,
-            [this](bool enabled){checksumEnabled = enabled; reset();});
+            [this](bool enabled){checksumEnabled = enabled; checkSettings(); reset();});
 
     connect(&_settingsWidget, &ComplexFramedReaderSettings::debugModeChanged,
             [this](bool enabled){debugModeEnabled = enabled;});
@@ -154,7 +154,32 @@ void ComplexFramedReader::checkSettings()
     }
     else
     {
-        _settingsWidget.showMessage("Settings are okay.");
+        // Calculate frame overhead
+        QString message;
+		unsigned overhead = syncWord.size();
+        if (checksumEnabled)
+        {
+            overhead += 1;
+        }
+		if (hasSizeByte)
+        {
+            overhead += isSizeField2B ? 2 : 1;
+            // Dynamic size: show formula
+            message = QString("Settings OK. [Expected frame = %1B + size*%2B/sample-set]")
+                .arg(overhead)
+                .arg(_numChannels * sampleSize);
+        }
+        else
+        {
+            // Fixed size: show total
+            unsigned totalFrameSize = overhead + frameSize;
+            message = QString("Settings OK. [Expected frame = %1B + %2B = %3B total]")
+                .arg(overhead)
+                .arg(frameSize)
+                .arg(totalFrameSize);
+        }
+        
+        _settingsWidget.showMessage(message);
     }
 }
 

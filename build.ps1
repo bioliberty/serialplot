@@ -67,3 +67,6 @@ Write-Host "To run: .\serialplot.exe or use run.bat" -ForegroundColor White
 Write-Host "To install system-wide: mingw32-make install (requires admin)" -ForegroundColor White
 Write-Host ""
 Read-Host "Press Enter to exit"
+
+# Return to root directory
+Set-Location ..
