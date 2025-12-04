@@ -364,7 +364,9 @@ void MainWindow::setupAboutDialog()
                      [](){ QApplication::aboutQt();});
 
     QString aboutText = uiAboutDialog.lbAbout->text();
-    aboutText.replace("$VERSION_STRING$", VERSION_STRING);
+    // Combine version with git hash: 0.13.0.99-dc6efa6b79+
+    QString fullVersion = QString(VERSION_STRING) + "-" + VERSION_REVISION;
+    aboutText.replace("$VERSION_STRING$", fullVersion);
     aboutText.replace("$VERSION_REVISION$", VERSION_REVISION);
     uiAboutDialog.lbAbout->setText(aboutText);
 }

@@ -18,7 +18,7 @@ cd build
 REM Configure with CMake
 echo.
 echo [1/3] Configuring with CMake...
-cmake .. -DCMAKE_PREFIX_PATH="%QT_DIR%" -G "MinGW Makefiles"
+cmake .. -DCMAKE_PREFIX_PATH="%QT_DIR%" -G "MinGW Makefiles" -DPROGRAM_NAME="serialplot_biolib"
 if %ERRORLEVEL% neq 0 (
     echo ERROR: CMake configuration failed!
     pause
@@ -38,16 +38,22 @@ if %ERRORLEVEL% neq 0 (
 REM Deploy Qt DLLs
 echo.
 echo [3/4] Deploying Qt dependencies...
-windeployqt serialplot.exe --no-translations
+windeployqt serialplot_biolib.exe --no-translations
 if %ERRORLEVEL% neq 0 (
     echo WARNING: windeployqt failed, but executable may still work
 )
 
+REM Create desktop shortcut
+echo.
+echo [4/5] Creating desktop shortcut...
+powershell -Command "$WS = New-Object -ComObject WScript.Shell; $SC = $WS.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\SerialPlot (MM DEV).lnk'); $SC.TargetPath = '%CD%\serialplot_biolib.exe'; $SC.WorkingDirectory = '%CD%'; $SC.Description = 'SerialPlot MM Dev Version'; $SC.Save()"
+if %ERRORLEVEL% equ 0 echo Desktop shortcut created successfully
+
 REM Success
 echo.
-echo [4/4] Build completed successfully!
+echo [5/5] Build completed successfully!
 echo.
-echo Executable location: %CD%\serialplot.exe
+echo Executable location: %CD%\serialplot_biolib.exe
 echo.
 echo To run: serialplot.exe or use run.bat
 echo To install system-wide: mingw32-make install (requires admin)

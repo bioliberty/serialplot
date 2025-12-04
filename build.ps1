@@ -19,7 +19,7 @@ Set-Location build
 # Configure with CMake
 Write-Host ""
 Write-Host "[1/3] Configuring with CMake..." -ForegroundColor Yellow
-cmake .. -DCMAKE_PREFIX_PATH="$QT_DIR" -G "MinGW Makefiles"
+cmake .. -DCMAKE_PREFIX_PATH="$QT_DIR" -G "MinGW Makefiles" -DPROGRAM_NAME="serialplot_biolib"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: CMake configuration failed!" -ForegroundColor Red
     Read-Host "Press Enter to exit"
@@ -39,16 +39,29 @@ if ($LASTEXITCODE -ne 0) {
 # Deploy Qt DLLs
 Write-Host ""
 Write-Host "[3/4] Deploying Qt dependencies..." -ForegroundColor Yellow
-windeployqt serialplot.exe --no-translations
+windeployqt serialplot_biolib.exe --no-translations
 if ($LASTEXITCODE -ne 0) {
     Write-Host "WARNING: windeployqt failed, but executable may still work" -ForegroundColor Yellow
 }
 
+# Create desktop shortcut
+Write-Host ""
+Write-Host "[4/5] Creating desktop shortcut..." -ForegroundColor Yellow
+$DesktopPath = [Environment]::GetFolderPath("Desktop")
+$ShortcutPath = Join-Path $DesktopPath "SerialPlot (MM DEV).lnk"
+$WScriptShell = New-Object -ComObject WScript.Shell
+$Shortcut = $WScriptShell.CreateShortcut($ShortcutPath)
+$Shortcut.TargetPath = "$PWD\serialplot_biolib.exe"
+$Shortcut.WorkingDirectory = "$PWD"
+$Shortcut.Description = "SerialPlot MM Dev Version"
+$Shortcut.Save()
+Write-Host "Desktop shortcut created: $ShortcutPath" -ForegroundColor Green
+
 # Success
 Write-Host ""
-Write-Host "[4/4] Build completed successfully!" -ForegroundColor Green
+Write-Host "[5/5] Build completed successfully!" -ForegroundColor Green
 Write-Host ""
-Write-Host "Executable location: $PWD\serialplot.exe" -ForegroundColor Cyan
+Write-Host "Executable location: $PWD\serialplot_biolib.exe" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "To run: .\serialplot.exe or use run.bat" -ForegroundColor White
 Write-Host "To install system-wide: mingw32-make install (requires admin)" -ForegroundColor White
