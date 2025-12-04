@@ -50,6 +50,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QRadioButton" name="rbComplexFramed">
+       <property name="toolTip">
+        <string>Define a complex binary frame. Powerful.</string>
+       </property>
+       <property name="text">
+        <string>Complex Frame</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>

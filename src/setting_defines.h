@@ -26,6 +26,7 @@ const char SettingGroup_DataFormat[] = "DataFormat";
 const char SettingGroup_Binary[] = "DataFormat_Binary";
 const char SettingGroup_ASCII[] = "DataFormat_ASCII";
 const char SettingGroup_CustomFrame[] = "DataFormat_CustomFrame";
+const char SettingGroup_ComplexFrame[] = "DataFormat_ComplexFrame";
 const char SettingGroup_Channels[] = "Channels";
 const char SettingGroup_Plot[] = "Plot";
 const char SettingGroup_Commands[] = "Commands";
@@ -74,6 +75,16 @@ const char SG_CustomFrame_NumberFormat[] = "numberFormat";
 const char SG_CustomFrame_Endianness[] = "endianness";
 const char SG_CustomFrame_Checksum[] = "checksum";
 const char SG_CustomFrame_DebugMode[] = "debugMode";
+
+// complex framed reader keys
+const char SG_ComplexFrame_NumOfChannels[] = "numOfChannels";
+const char SG_ComplexFrame_FrameStart[] = "frameStart";
+const char SG_ComplexFrame_SizeFieldType[] = "fixedSize";
+const char SG_ComplexFrame_FixedFrameSize[] = "frameSize";
+const char SG_ComplexFrame_NumberFormat[] = "numberFormat";
+const char SG_ComplexFrame_Endianness[] = "endianness";
+const char SG_ComplexFrame_Checksum[] = "checksum";
+const char SG_ComplexFrame_DebugMode[] = "debugMode";
 
 // channel info keys
 const char SG_Channels_Channel[] = "channel";

@@ -33,6 +33,7 @@
 #include "asciireader.h"
 #include "demoreader.h"
 #include "framedreader.h"
+#include "complexframedreader.h"
 #include "datarecorder.h"
 
 namespace Ui {
@@ -75,6 +76,7 @@ private:
     BinaryStreamReader bsReader;
     AsciiReader asciiReader;
     FramedReader framedReader;
+    ComplexFramedReader complexFramedReader;
     /// Currently selected reader
     AbstractReader* currentReader;
     /// Disable current reader and enable a another one

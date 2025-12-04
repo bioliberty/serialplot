@@ -31,6 +31,7 @@ DataFormatPanel::DataFormatPanel(QSerialPort* port, QWidget *parent) :
     bsReader(port, this),
     asciiReader(port, this),
     framedReader(port, this),
+    complexFramedReader(port, this),
     demoReader(port, this)
 {
     ui->setupUi(this);
@@ -50,6 +51,7 @@ DataFormatPanel::DataFormatPanel(QSerialPort* port, QWidget *parent) :
     readerSelectButtons.addButton(ui->rbBinary);
     readerSelectButtons.addButton(ui->rbAscii);
     readerSelectButtons.addButton(ui->rbFramed);
+    readerSelectButtons.addButton(ui->rbComplexFramed);
 
     connect(ui->rbBinary, &QRadioButton::toggled, [this](bool checked)
             {
@@ -64,6 +66,11 @@ DataFormatPanel::DataFormatPanel(QSerialPort* port, QWidget *parent) :
     connect(ui->rbFramed, &QRadioButton::toggled, [this](bool checked)
             {
                 if (checked) selectReader(&framedReader);
+            });
+
+    connect(ui->rbComplexFramed, &QRadioButton::toggled, [this](bool checked)
+            {
+                if (checked) selectReader(&complexFramedReader);
             });
 }
 
@@ -107,6 +114,7 @@ void DataFormatPanel::enableDemo(bool demoEnabled)
     ui->rbAscii->setDisabled(demoEnabled);
     ui->rbBinary->setDisabled(demoEnabled);
     ui->rbFramed->setDisabled(demoEnabled);
+    ui->rbComplexFramed->setDisabled(demoEnabled);
 }
 
 bool DataFormatPanel::isDemoEnabled() const
@@ -155,9 +163,13 @@ void DataFormatPanel::saveSettings(QSettings* settings)
     {
         format = "ascii";
     }
-    else // framed reader
+    else if (selectedReader == &framedReader)
     {
         format = "custom";
+    }
+    else // complex framed reader
+    {
+        format = "complex";
     }
     settings->setValue(SG_DataFormat_Format, format);
 
@@ -167,6 +179,7 @@ void DataFormatPanel::saveSettings(QSettings* settings)
     bsReader.saveSettings(settings);
     asciiReader.saveSettings(settings);
     framedReader.saveSettings(settings);
+    complexFramedReader.saveSettings(settings);
 }
 
 void DataFormatPanel::loadSettings(QSettings* settings)
@@ -191,6 +204,11 @@ void DataFormatPanel::loadSettings(QSettings* settings)
     {
         selectReader(&framedReader);
         ui->rbFramed->setChecked(true);
+    }
+    else if (format == "complex")
+    {
+        selectReader(&complexFramedReader);
+        ui->rbComplexFramed->setChecked(true);
     } // else current selection stays
 
     settings->endGroup();
@@ -199,4 +217,5 @@ void DataFormatPanel::loadSettings(QSettings* settings)
     bsReader.loadSettings(settings);
     asciiReader.loadSettings(settings);
     framedReader.loadSettings(settings);
+    complexFramedReader.loadSettings(settings);
 }

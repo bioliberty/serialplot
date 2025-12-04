@@ -104,6 +104,8 @@ qt_add_executable(${PROGRAM_NAME} WIN32
   src/demoreadersettings.cpp
   src/framedreader.cpp
   src/framedreadersettings.cpp
+  src/complexframedreader.cpp
+  src/complexframedreadersettings.cpp
   src/plotmanager.cpp
   src/plotmenu.cpp
   src/barplot.cpp
