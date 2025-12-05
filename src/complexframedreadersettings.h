@@ -79,6 +79,9 @@ private:
 
 private slots:
     void onSyncWordEdited();
+
+private:
+    void updateSyncWordAscii();
 };
 
 #endif // COMPLEXFRAMEDREADERSETTINGS_H

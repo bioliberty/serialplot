@@ -86,6 +86,8 @@ ComplexFramedReaderSettings::ComplexFramedReaderSettings(QWidget *parent) :
 
     connect(ui->nfBox, SIGNAL(selectionChanged(NumberFormat)),
             this, SIGNAL(numberFormatChanged(NumberFormat)));
+
+    updateSyncWordAscii(); // Initialize ASCII display
 }
 
 ComplexFramedReaderSettings::~ComplexFramedReaderSettings()
@@ -138,8 +140,31 @@ QByteArray ComplexFramedReaderSettings::syncWord()
 
 void ComplexFramedReaderSettings::onSyncWordEdited()
 {
+    updateSyncWordAscii();
     // TODO: emit with a delay so that error message doesn't flash!
     emit syncWordChanged(syncWord());
+}
+
+void ComplexFramedReaderSettings::updateSyncWordAscii()
+{
+    QByteArray bytes = syncWord();
+    QString asciiText;
+
+    for (int i = 0; i < bytes.size(); ++i)
+    {
+        unsigned char byte = static_cast<unsigned char>(bytes[i]);
+        // Display printable ASCII characters, otherwise show '.'
+        if (byte >= 32 && byte <= 126)
+        {
+            asciiText += QChar(byte);
+        }
+        else
+        {
+            asciiText += '.';
+        }
+    }
+
+    ui->lblSyncWordAscii->setText(asciiText);
 }
 
 ComplexFramedReaderSettings::SizeFieldType ComplexFramedReaderSettings::sizeFieldType() const
