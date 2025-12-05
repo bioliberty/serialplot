@@ -76,10 +76,12 @@ signals:
 private:
     Ui::ComplexFramedReaderSettings *ui;
     QButtonGroup fbGroup;
+    bool updatingFields;
     void updateSyncWordAscii();
 
 private slots:
     void onSyncWordEdited();
+    void onAsciiEdited();
 };
 
 #endif // COMPLEXFRAMEDREADERSETTINGS_H

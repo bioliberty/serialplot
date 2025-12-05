@@ -25,7 +25,8 @@
 ComplexFramedReaderSettings::ComplexFramedReaderSettings(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ComplexFramedReaderSettings),
-    fbGroup(this)
+    fbGroup(this),
+    updatingFields(false)
 {
     ui->setupUi(this);
 
@@ -84,6 +85,9 @@ ComplexFramedReaderSettings::ComplexFramedReaderSettings(QWidget *parent) :
     connect(ui->leSyncWord, &QLineEdit::textChanged,
             this, &ComplexFramedReaderSettings::onSyncWordEdited);
 
+    connect(ui->lblSyncWordAscii, &QLineEdit::textChanged,
+            this, &ComplexFramedReaderSettings::onAsciiEdited);
+
     connect(ui->nfBox, SIGNAL(selectionChanged(NumberFormat)),
             this, SIGNAL(numberFormatChanged(NumberFormat)));
 
@@ -140,7 +144,10 @@ QByteArray ComplexFramedReaderSettings::syncWord()
 
 void ComplexFramedReaderSettings::onSyncWordEdited()
 {
-    updateSyncWordAscii();
+    if (!updatingFields)
+    {
+        updateSyncWordAscii();
+    }
     // TODO: emit with a delay so that error message doesn't flash!
     emit syncWordChanged(syncWord());
 }
@@ -169,7 +176,35 @@ void ComplexFramedReaderSettings::updateSyncWordAscii()
         }
     }
 
+    updatingFields = true;
     ui->lblSyncWordAscii->setText(asciiText);
+    updatingFields = false;
+}
+
+void ComplexFramedReaderSettings::onAsciiEdited()
+{
+    if (updatingFields) return;
+
+    QString asciiText = ui->lblSyncWordAscii->text();
+    QString hexText;
+
+    // Convert each character to hex
+    for (int i = 0; i < asciiText.size(); ++i)
+    {
+        QChar ch = asciiText[i];
+        if (ch == ' ') continue;  // Skip spaces
+        
+        unsigned char byte = static_cast<unsigned char>(ch.toLatin1());
+        if (i > 0 && !hexText.isEmpty())
+        {
+            hexText += ' ';
+        }
+        hexText += QString("%1").arg(byte, 2, 16, QChar('0')).toUpper();
+    }
+
+    updatingFields = true;
+    ui->leSyncWord->setText(hexText);
+    updatingFields = false;
 }
 
 ComplexFramedReaderSettings::SizeFieldType ComplexFramedReaderSettings::sizeFieldType() const
