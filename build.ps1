@@ -8,7 +8,9 @@ Write-Host "========================================" -ForegroundColor Cyan
 # Set Qt and MinGW paths
 $QT_DIR = "C:\Qt\6.10.1\mingw_64"
 $MINGW_DIR = "C:\Qt\Tools\mingw1310_64"
-$env:PATH = "$MINGW_DIR\bin;$QT_DIR\bin;$env:PATH"
+$CMAKE_DIR = "C:\Qt\Tools\CMake_64\bin"
+$ANACONDA_BIN = "C:\Users\Micha\anaconda3\Library\usr\bin"
+$env:PATH = "$CMAKE_DIR;$MINGW_DIR\bin;$QT_DIR\bin;$ANACONDA_BIN;$env:PATH"
 
 # Create build directory if it doesn't exist
 if (-not (Test-Path "build")) {

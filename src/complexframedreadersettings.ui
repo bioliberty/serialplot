@@ -49,10 +49,7 @@
           <string/>
          </property>
          <property name="toolTip">
-          <string>ASCII representation of Frame Start bytes</string>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
+          <string>ASCII representation of Frame Start bytes (editable)</string>
          </property>
          <property name="font">
           <font>
