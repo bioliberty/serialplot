@@ -44,12 +44,23 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="lblSyncWordAscii">
+        <widget class="QLineEdit" name="lblSyncWordAscii">
          <property name="text">
           <string/>
          </property>
          <property name="toolTip">
           <string>ASCII representation of Frame Start bytes</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Courier New</family>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>

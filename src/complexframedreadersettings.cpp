@@ -152,6 +152,11 @@ void ComplexFramedReaderSettings::updateSyncWordAscii()
 
     for (int i = 0; i < bytes.size(); ++i)
     {
+        if (i > 0)
+        {
+            asciiText += ' ';  // Add space between characters
+        }
+        
         unsigned char byte = static_cast<unsigned char>(bytes[i]);
         // Display printable ASCII characters, otherwise show '.'
         if (byte >= 32 && byte <= 126)

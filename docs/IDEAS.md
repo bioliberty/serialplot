@@ -22,6 +22,7 @@ remove docs/ from git repo
  - [ ] command structure setup - plug in (wireshark esque)- make one specific for lg01 comms protocol (use the repo json!!)
  - [ ] some type of built in settings or autoloader button click to load different lifehub #xx packs?
  - [ ] somehow allow an external hook into an anaylser (eg my python progs).  OR just an easier/better csv export. 
+ - [ ] make the record button always visible.  if filename missing, just use a default "???_<timestamp>.csv"
 
  ## Complex Frame
   - float is 8B here!  make float 4B (call it stm float?) and drop double (or check and make 8B?)
