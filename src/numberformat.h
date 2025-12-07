@@ -32,6 +32,7 @@ enum NumberFormat
     NumberFormat_int32,
     NumberFormat_float,
     NumberFormat_double,
+    NumberFormat_pad,
     NumberFormat_INVALID ///< used for error cases
 };
 

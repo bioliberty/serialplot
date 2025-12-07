@@ -25,7 +25,6 @@ remove docs/ from git repo
  - [ ] make the record button always visible.  if filename missing, just use a default "???_<timestamp>.csv"
 
  ## Complex Frame
-  - float is 8B here!  make float 4B (call it stm float?) and drop double (or check and make 8B?)
   - payload size is number of BYTES for the SAMPLES total for all chans.  
     ie if its 2ch u16, and payload = 4. then its 1 SET of 2ch u16 samples, 4B total. 
     MIGHT REWORK THIS TO BE CLEARER.

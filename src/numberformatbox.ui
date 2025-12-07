@@ -112,6 +112,35 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QRadioButton" name="rbPad">
+     <property name="toolTip">
+      <string>Padding bytes to skip (not plotted)</string>
+     </property>
+     <property name="text">
+      <string>pad</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="spPadSize">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="toolTip">
+      <string>Number of padding bytes to skip</string>
+     </property>
+     <property name="suffix">
+      <string> B</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>256</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

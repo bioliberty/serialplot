@@ -53,6 +53,7 @@ public:
     QByteArray syncWord();
     SizeFieldType sizeFieldType() const;
     unsigned fixedFrameSize() const;
+    unsigned padSize() const;
     bool isChecksumEnabled();
     bool isDebugModeEnabled();
     /// Save settings into a `QSettings`
@@ -71,6 +72,7 @@ signals:
     void checksumChanged(bool);
     void numOfChannelsChanged(unsigned);
     void numberFormatChanged(NumberFormat);
+    void padSizeChanged(unsigned);
     void debugModeChanged(bool);
 
 private:

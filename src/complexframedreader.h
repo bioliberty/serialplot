@@ -76,6 +76,7 @@ private:
     /// points to the readSampleAs function for currently selected number format
     double (ComplexFramedReader::*readSample)();
     template<typename T> double readSampleAs();
+    double readSampleAsPad();  /// Reads pad bytes
     /// reads payload portion of the frame, calculates checksum and commits data
     /// @note should be called only if there are enough bytes on device
     void readFrameDataAndCheck();

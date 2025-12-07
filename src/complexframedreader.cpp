@@ -58,6 +58,17 @@ ComplexFramedReader::ComplexFramedReader(QIODevice* device, QObject* parent) :
     connect(&_settingsWidget, &ComplexFramedReaderSettings::debugModeChanged,
             [this](bool enabled){debugModeEnabled = enabled;});
 
+    connect(&_settingsWidget, &ComplexFramedReaderSettings::padSizeChanged,
+            [this](unsigned size)
+            {
+                if (_settingsWidget.numberFormat() == NumberFormat_pad)
+                {
+                    sampleSize = size;
+                    checkSettings();
+                    reset();
+                }
+            });
+
     // init reader state
     reset();
 }
@@ -107,6 +118,10 @@ void ComplexFramedReader::onNumberFormatChanged(NumberFormat numberFormat)
         case NumberFormat_double:
             sampleSize = sizeof(double);
             readSample = &ComplexFramedReader::readSampleAs<double>;
+            break;
+        case NumberFormat_pad:
+            sampleSize = _settingsWidget.padSize();
+            readSample = &ComplexFramedReader::readSampleAsPad;
             break;
         case NumberFormat_INVALID:
             Q_ASSERT(1); // never
@@ -358,6 +373,22 @@ void ComplexFramedReader::readFrameDataAndCheck()
     {
         qCritical() << "Checksum failed! Received:" << rChecksum << "Calculated:" << calcChecksum;
     }
+}
+
+double ComplexFramedReader::readSampleAsPad()
+{
+    QByteArray padData = _device->read(sampleSize);
+
+    if (checksumEnabled)
+    {
+        for (int i = 0; i < padData.size(); i++)
+        {
+            calcChecksum += (unsigned char) padData[i];
+        }
+    }
+
+    // Return 0 for pad bytes (uncheck visible to hide from plot)
+    return 0.0;
 }
 
 template<typename T> double ComplexFramedReader::readSampleAs()

@@ -91,6 +91,9 @@ ComplexFramedReaderSettings::ComplexFramedReaderSettings(QWidget *parent) :
     connect(ui->nfBox, SIGNAL(selectionChanged(NumberFormat)),
             this, SIGNAL(numberFormatChanged(NumberFormat)));
 
+    connect(ui->nfBox, SIGNAL(padSizeChanged(unsigned)),
+            this, SIGNAL(padSizeChanged(unsigned)));
+
     updateSyncWordAscii(); // Initialize ASCII display
 }
 
@@ -220,6 +223,11 @@ unsigned ComplexFramedReaderSettings::fixedFrameSize() const
 bool ComplexFramedReaderSettings::isChecksumEnabled()
 {
     return ui->cbChecksum->isChecked();
+}
+
+unsigned ComplexFramedReaderSettings::padSize() const
+{
+    return ui->nfBox->padSize();
 }
 
 bool ComplexFramedReaderSettings::isDebugModeEnabled()

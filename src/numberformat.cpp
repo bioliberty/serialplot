@@ -29,7 +29,8 @@ QMap<NumberFormat, QString> mapping({
         {NumberFormat_int16, "int16"},
         {NumberFormat_int32, "int32"},
         {NumberFormat_float, "float"},
-        {NumberFormat_double, "double"}
+        {NumberFormat_double, "double"},
+        {NumberFormat_pad, "pad"}
     });
 
 QString numberFormatToStr(NumberFormat nf)
