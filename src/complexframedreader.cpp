@@ -344,7 +344,9 @@ unsigned ComplexFramedReader::readData()
 
     // loop until we run out of bytes or more bytes is required
     unsigned bytesAvailable;
-    while ((bytesAvailable = _device->bytesAvailable()))
+    bytesAvailable = _device->bytesAvailable();
+    qDebug() << "Bytes available at readData start:" << bytesAvailable;
+    while ((bytesAvailable))
     {
         if (!gotSync) // read sync word
         {
@@ -363,10 +365,10 @@ unsigned ComplexFramedReader::readData()
             {
                 if (debugModeEnabled)
                 {
-                    qCritical() << "Missed" << sync_i+1 << "th sync byte."
+                    qDebug() << "Missed" << sync_i+1 << "th sync byte."
                                 << "Expected:" << QString("0x%1").arg((unsigned char)syncWord[sync_i], 2, 16, QChar('0'))
                                 << "Got:" << QString("0x%1").arg((unsigned char)c, 2, 16, QChar('0'))
-                                << "(" << (isprint(c) ? QString(c) : QString("non-printable")) << ")";
+                                << "(" << (isprint(c) ? QString(c) : QString("")) << ")";
                 }
                 sync_i = 0; // Reset sync on mismatch
             }
@@ -413,20 +415,11 @@ unsigned ComplexFramedReader::readData()
                     sampleSetSize += channelSampleSizes[i];
                 }
                 
-                if (frameSize % sampleSetSize != 0)
+                if (frameSize % sampleSetSize != 0) // MM changed to warning, other data im sending uses the same frame (~,<sz>,<data>,<csum>)
                 {
-                    qCritical() <<
+                    qWarning() <<
                         QString("Payload size (%1) is not multiple of %2 (sample set size)!") \
                         .arg(frameSize).arg(sampleSetSize);
-                    if (debugModeEnabled)
-                    {
-                        qDebug() << "Expected sample set size:" << sampleSetSize;
-                        qDebug() << "Channel count:" << _numChannels;
-                        for (unsigned i = 0; i < _numChannels; ++i)
-                        {
-                            qDebug() << "  Channel" << i << "size:" << channelSampleSizes[i] << "bytes";
-                        }
-                    }
                     reset();
                 }
                 else
