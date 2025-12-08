@@ -344,9 +344,7 @@ unsigned ComplexFramedReader::readData()
 
     // loop until we run out of bytes or more bytes is required
     unsigned bytesAvailable;
-    bytesAvailable = _device->bytesAvailable();
-    qDebug() << "Bytes available at readData start:" << bytesAvailable;
-    while ((bytesAvailable))
+    while ((bytesAvailable = _device->bytesAvailable()))
     {
         if (!gotSync) // read sync word
         {
@@ -368,7 +366,7 @@ unsigned ComplexFramedReader::readData()
                     qDebug() << "Missed" << sync_i+1 << "th sync byte."
                                 << "Expected:" << QString("0x%1").arg((unsigned char)syncWord[sync_i], 2, 16, QChar('0'))
                                 << "Got:" << QString("0x%1").arg((unsigned char)c, 2, 16, QChar('0'))
-                                << "(" << (isprint(c) ? QString(c) : QString("")) << ")";
+                                << "(" << (isprint(c) ? QString(c) : "") << ")";
                 }
                 sync_i = 0; // Reset sync on mismatch
             }
@@ -417,9 +415,12 @@ unsigned ComplexFramedReader::readData()
                 
                 if (frameSize % sampleSetSize != 0) // MM changed to warning, other data im sending uses the same frame (~,<sz>,<data>,<csum>)
                 {
-                    qWarning() <<
-                        QString("Payload size (%1) is not multiple of %2 (sample set size)!") \
-                        .arg(frameSize).arg(sampleSetSize);
+                    if (debugModeEnabled)
+                    {
+                        qWarning() <<
+                            QString("Payload size (%1) is not multiple of %2 (sample set size)!") \
+                            .arg(frameSize).arg(sampleSetSize);
+                    }
                     reset();
                 }
                 else
