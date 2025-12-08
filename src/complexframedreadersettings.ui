@@ -13,9 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_main">
    <property name="spacing">
-    <number>3</number>
+    <number>6</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
@@ -30,220 +30,271 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>3</number>
      </property>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_syncword">
-       <item>
-        <widget class="CommandEdit" name="leSyncWord">
-         <property name="toolTip">
-          <string>Enter the 'Frame Start' bytes in hexadecimal.</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lblSyncWordAscii">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string/>
-         </property>
-         <property name="toolTip">
-          <string>ASCII representation of Frame Start bytes (editable)</string>
-         </property>
-         <property name="font">
-          <font>
-           <family>Courier New</family>
-          </font>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <string>Frame Start:</string>
          </property>
         </widget>
        </item>
-      </layout>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="toolTip">
-        <string>Number of Channels</string>
-       </property>
-       <property name="text">
-        <string># Channels:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="spNumOfChannels">
-       <property name="toolTip">
-        <string>Select number of channels</string>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>32</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Payload Size:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QRadioButton" name="rbFixedSize">
+       <item row="0" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_syncword">
+         <item>
+          <widget class="CommandEdit" name="leSyncWord">
+           <property name="toolTip">
+            <string>Enter the 'Frame Start' bytes in hexadecimal.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lblSyncWordAscii">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="toolTip">
+            <string>ASCII representation of Frame Start bytes (editable)</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>Courier New</family>
+            </font>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
          <property name="toolTip">
-          <string>Frame size is always the same</string>
+          <string>Number of Channels</string>
          </property>
          <property name="text">
-          <string>Fixed Size:</string>
+          <string># Channels:</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QSpinBox" name="spSize">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="spNumOfChannels">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the payload size. It &lt;span style=&quot; font-weight:600;&quot;&gt;must&lt;/span&gt; be multiple of (#channels * sample size).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>Select number of channels</string>
          </property>
          <property name="minimum">
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>65535</number>
+          <number>32</number>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QRadioButton" name="rbSize1Byte">
-         <property name="toolTip">
-          <string>First byte after the 'frame start' bytes should be the size of the frame payload. Only counting following bytes but excluding the checksum.</string>
-         </property>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>1 byte size field</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
+          <string>Payload Size:</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QRadioButton" name="rbSize2Byte">
+       <item row="2" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QRadioButton" name="rbFixedSize">
+           <property name="toolTip">
+            <string>Frame size is always the same</string>
+           </property>
+           <property name="text">
+            <string>Fixed Size:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spSize">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter the payload size. It &lt;span style=&quot; font-weight:600;&quot;&gt;must&lt;/span&gt; be multiple of (#channels * sample size).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rbSize1Byte">
+           <property name="toolTip">
+            <string>First byte after the 'frame start' bytes should be the size of the frame payload. Only counting following bytes but excluding the checksum.</string>
+           </property>
+           <property name="text">
+            <string>1 byte size field</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rbSize2Byte">
+           <property name="toolTip">
+            <string>First 2 bytes after the 'frame start' bytes should be the size of the frame payload. Only counting following bytes but excluding the checksum.</string>
+           </property>
+           <property name="text">
+            <string>2 byte size field</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
          <property name="toolTip">
-          <string>First 2 bytes after the 'frame start' bytes should be the size of the frame payload. Only counting following bytes but excluding the checksum.</string>
+          <string>Byte Order</string>
          </property>
          <property name="text">
-          <string>2 byte size field</string>
+          <string>Endianness:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="EndiannessBox" name="endiBox" native="true"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Checksum:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="cbChecksum">
+         <property name="toolTip">
+          <string>Last byte of the frame is checksum.</string>
+         </property>
+         <property name="text">
+          <string>Enabled</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="toolTip">
-        <string/>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="text">
-        <string>Number Type:</string>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>1</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
-     <item row="3" column="1">
-      <widget class="NumberFormatBox" name="nfBox" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="toolTip">
-        <string>Byte Order</string>
-       </property>
-       <property name="text">
-        <string>Endianness:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="EndiannessBox" name="endiBox" native="true"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Checksum:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QCheckBox" name="cbChecksum">
-       <property name="toolTip">
-        <string>Last byte of the frame is checksum.</string>
-       </property>
-       <property name="text">
-        <string>Enabled</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Frame Start:</string>
-       </property>
-      </widget>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="lMessage">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>All is well.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbDebugMode">
+         <property name="toolTip">
+          <string>Enable printing of extra log messages that can be useful for debugging</string>
+         </property>
+         <property name="text">
+          <string>Debug Mode</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QGroupBox" name="groupBoxFormats">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>1</height>
-      </size>
+     <property name="title">
+      <string>Channel Formats</string>
      </property>
-    </spacer>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="lMessage">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>All is well.</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="cbDebugMode">
-       <property name="toolTip">
-        <string>Enable printing of extra log messages that can be useful for debugging</string>
-       </property>
-       <property name="text">
-        <string>Debug Mode</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
+      <item>
+       <widget class="QScrollArea" name="scrollAreaFormats">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>100</width>
+           <height>100</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="formatsLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

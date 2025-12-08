@@ -24,6 +24,9 @@
 #include <QByteArray>
 #include <QSettings>
 #include <QButtonGroup>
+#include <QVector>
+#include <QScrollArea>
+#include <QVBoxLayout>
 
 #include "numberformatbox.h"
 #include "endiannessbox.h"
@@ -48,12 +51,16 @@ public:
     void showMessage(QString message, bool error = false);
 
     unsigned numOfChannels();
-    NumberFormat numberFormat();
+    NumberFormat numberFormat();  /// deprecated: returns format of first channel
+    NumberFormat channelFormat(unsigned channel) const;
+    void setChannelFormat(unsigned channel, NumberFormat format);
+    unsigned channelPadSize(unsigned channel) const;
+    void setChannelPadSize(unsigned channel, unsigned size);
     Endianness endianness();
     QByteArray syncWord();
     SizeFieldType sizeFieldType() const;
     unsigned fixedFrameSize() const;
-    unsigned padSize() const;
+    unsigned padSize() const;  /// deprecated: returns pad size of first channel
     bool isChecksumEnabled();
     bool isDebugModeEnabled();
     /// Save settings into a `QSettings`
@@ -71,15 +78,22 @@ signals:
     void fixedFrameSizeChanged(unsigned);
     void checksumChanged(bool);
     void numOfChannelsChanged(unsigned);
-    void numberFormatChanged(NumberFormat);
-    void padSizeChanged(unsigned);
+    void numberFormatChanged(NumberFormat);  /// deprecated
+    void channelFormatChanged(unsigned channel, NumberFormat format);
+    void channelPadSizeChanged(unsigned channel, unsigned size);
+    void padSizeChanged(unsigned);  /// deprecated
     void debugModeChanged(bool);
 
 private:
     Ui::ComplexFramedReaderSettings *ui;
     QButtonGroup fbGroup;
     bool updatingFields;
+    QVector<NumberFormat> channelFormats;
+    QVector<unsigned> channelPadSizes;
+    QVector<NumberFormatBox*> formatBoxes;
     void updateSyncWordAscii();
+    void createFormatBoxes(unsigned numChannels);
+    void clearFormatBoxes();
 
 private slots:
     void onSyncWordEdited();
