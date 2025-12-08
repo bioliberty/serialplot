@@ -9,6 +9,7 @@ remove docs/ from git repo
  - [ ] window cursors:  overlay ac noise, dc noise, slope (linear regression best effort, 1st order), min, max, avg...
   - [ ] ^ later, try 2nd and 3rd order, other types of fit...)
  - [ ] two or more plot groups.  each has a channel selector. 
+   - [ ] ^ related, group settings so they can all be turned on/off together? set gain together etc?
  - [ ] change to BIN pack - allow more suited type for us. 
  - [ ] build on MAC. 
  - [ ] side panel to show ALL data coming in 
