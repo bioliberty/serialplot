@@ -41,10 +41,16 @@ public:
     NumberFormat currentSelection();
     /// change the currently selected number format
     void setSelection(NumberFormat nf);
+    /// returns the pad size (only relevant when NumberFormat_pad is selected)
+    unsigned padSize() const;
+    /// set the pad size
+    void setPadSize(unsigned size);
 
 signals:
     /// Signaled when number format selection is changed
     void selectionChanged(NumberFormat numberFormat);
+    /// Signaled when pad size is changed
+    void padSizeChanged(unsigned size);
 
 private:
     Ui::NumberFormatBox *ui;

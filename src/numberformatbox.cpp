@@ -35,9 +35,17 @@ NumberFormatBox::NumberFormatBox(QWidget *parent) :
     buttonGroup.addButton(ui->rbInt32,  NumberFormat_int32);
     buttonGroup.addButton(ui->rbFloat,  NumberFormat_float);
     buttonGroup.addButton(ui->rbDouble,  NumberFormat_double);
+    buttonGroup.addButton(ui->rbPad,  NumberFormat_pad);
 
     connect(&buttonGroup, &QButtonGroup::idToggled,
             this, &NumberFormatBox::onButtonToggled);
+
+    // Enable/disable pad size spinbox based on pad selection
+    connect(ui->rbPad, &QRadioButton::toggled,
+            ui->spPadSize, &QWidget::setEnabled);
+
+    connect(ui->spPadSize, QOverload<int>::of(&QSpinBox::valueChanged),
+            [this](int value) { emit padSizeChanged(value); });
 }
 
 NumberFormatBox::~NumberFormatBox()
@@ -58,4 +66,14 @@ NumberFormat NumberFormatBox::currentSelection()
 void NumberFormatBox::setSelection(NumberFormat nf)
 {
     buttonGroup.button(nf)->setChecked(true);
+}
+
+unsigned NumberFormatBox::padSize() const
+{
+    return ui->spPadSize->value();
+}
+
+void NumberFormatBox::setPadSize(unsigned size)
+{
+    ui->spPadSize->setValue(size);
 }

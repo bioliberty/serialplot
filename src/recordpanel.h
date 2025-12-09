@@ -65,6 +65,7 @@ private:
     bool overwriteSelected;
     DataRecorder recorder;
     Stream* _stream;
+    QString originalBaseFileName;
 
     /**
      * @brief Increments the file name.

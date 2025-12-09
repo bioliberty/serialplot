@@ -21,6 +21,7 @@
 #define COMPLEXFRAMEDREADER_H
 
 #include <QSettings>
+#include <QVector>
 
 #include "abstractreader.h"
 #include "complexframedreadersettings.h"
@@ -52,7 +53,9 @@ private:
     // settings related members
     ComplexFramedReaderSettings _settingsWidget;
     unsigned _numChannels;
-    unsigned sampleSize;
+    unsigned sampleSize;  /// deprecated: kept for backward compat, use channelFormats
+    QVector<NumberFormat> channelFormats;  /// format for each channel
+    QVector<unsigned> channelSampleSizes;  /// sample size for each channel
     unsigned settingsInvalid;   /// settings are all valid if this is 0, if not no reading is done
     QByteArray syncWord;
     bool checksumEnabled;
@@ -73,12 +76,19 @@ private:
     unsigned calcChecksum;
 
     void reset();    /// Resets the reading state. Used in case of error or setting change.
-    /// points to the readSampleAs function for currently selected number format
+    /// points to the readSampleAs function for currently selected number format (deprecated)
     double (ComplexFramedReader::*readSample)();
+    /// per-channel read functions
+    QVector<double (ComplexFramedReader::*)()> channelReadFunctions;
     template<typename T> double readSampleAs();
+    double readSampleAsPad();  /// Reads pad bytes
+    unsigned currentChannelForPad;  /// Track which channel we're reading for pad
     /// reads payload portion of the frame, calculates checksum and commits data
     /// @note should be called only if there are enough bytes on device
     void readFrameDataAndCheck();
+
+    /// Initialize format, size, and read function for a single channel
+    void initializeChannelFormat(unsigned channel, NumberFormat format);
 
     unsigned readData() override;
 

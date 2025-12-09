@@ -61,13 +61,13 @@
        <item row="1" column="0">
         <widget class="QCheckBox" name="cbAutoIncrement">
          <property name="toolTip">
-          <string>Increments file name automatically everytime a new recording starts</string>
+          <string>Appends timestamp (YYMMDDHHMMSS) to file name when recording starts</string>
          </property>
          <property name="text">
-          <string>Auto increment file name</string>
+          <string>Auto-inc filename (else append timestamp</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
