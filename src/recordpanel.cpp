@@ -26,6 +26,7 @@
 #include <QCompleter>
 #include <QFileSystemModel>
 #include <QFileSystemModel>
+#include <QDateTime>
 #include <QtDebug>
 #include <ctime>
 
@@ -44,6 +45,17 @@ RecordPanel::RecordPanel(Stream* stream, QWidget *parent) :
     _stream = stream;
 
     ui->setupUi(this);
+    
+    // Set default filename to home directory + serialplot_captures subdir + test.csv
+    QString capturesDir = QDir::homePath() + QDir::separator() + "serialplot_captures";
+    QString defaultFileName = capturesDir + QDir::separator() + "test.csv";
+
+    // reowkr this. have a look whats going on.  store suffix and basename seperatly
+    // construct file by path, basename, timestamp, suffix. 
+    // update originalBaseFileName when user changes filename manually.
+    // clear when stopping recording (back to default without timestamp)
+
+    ui->leFileName->setText(defaultFileName);
 
     recordToolBar.setObjectName("tbRecord");
 
@@ -160,21 +172,59 @@ QString RecordPanel::getSelectedFile()
         return QString();
     }
 
-    // if no timestamp and file exists try autoincrement option
-    if (!overwriteSelected && QFile::exists(selectedFile()))
+    // Use the original base filename to prevent timestamp accumulation
+    QFileInfo fileInfo(originalBaseFileName);
+    QString dirPath = fileInfo.path();
+    QString base = fileInfo.completeBaseName();
+    QString suffix = fileInfo.suffix();
+    if (!suffix.isEmpty())
     {
-        if (ui->cbAutoIncrement->isChecked())
+        suffix = "." + suffix;
+    }
+    
+    qDebug() << "get selected file called. dir:" << dirPath
+             << " base:" << base << " suffix:" << suffix;
+    
+    // Create directory if it doesn't exist
+    QDir dir;
+    if (!dir.exists(dirPath))
+    {
+        dir.mkpath(dirPath);
+    }
+
+    QString finalFileName;
+    
+    if (ui->cbAutoIncrement->isChecked())
+    {
+        // Append timestamp: YYMMDDHHMMSS (always add timestamp, even on first run)
+        QDateTime now = QDateTime::currentDateTime();
+        QString timestamp = now.toString("yyMMddHHmmss");
+        finalFileName = dirPath + "/" + base + "_" + timestamp + suffix;
+        qDebug() << "Auto increment enabled. Final file name:" << finalFileName;
+        
+        if (QFile::exists(finalFileName))
         {
-            if (!incrementFileName()) return QString();
-        }
-        else
-        {
-            if (!confirmOverwrite(selectedFile()))
+            if (!confirmOverwrite(finalFileName))
                 return QString();
         }
     }
-
-    return selectedFile();
+    else
+    {
+        // Use auto increment logic
+        finalFileName = originalBaseFileName;
+        if (!overwriteSelected && QFile::exists(finalFileName))
+        {
+            // Store current file, increment it, then restore
+            QString temp = selectedFile();
+            setSelectedFile(originalBaseFileName);
+            if (!incrementFileName()) return QString();
+            finalFileName = selectedFile();
+            setSelectedFile(temp); // Restore for display
+        }
+    }
+    
+    setSelectedFile(finalFileName);
+    return finalFileName;
 }
 
 QString RecordPanel::formatTimeStamp(QString t) const
@@ -201,6 +251,24 @@ void RecordPanel::onRecord(bool start)
         stopRecording();
         return;
     }
+    
+    // Store the original base filename, stripping any existing timestamp pattern
+    QString currentFileName = ui->leFileName->text();
+    QFileInfo fileInfo(currentFileName);
+    QString base = fileInfo.completeBaseName();
+    QString suffix = fileInfo.suffix();
+    
+    // Remove timestamp pattern _YYMMDDHHMMSS from the end if it exists
+    QRegularExpression timestampRegex("_\\d{12}$");
+    base.remove(timestampRegex);
+    
+    if (!suffix.isEmpty())
+    {
+        suffix = "." + suffix;
+    }
+    
+    originalBaseFileName = fileInfo.path() + "/" + base + suffix;
+    qDebug() << "Original base filename set to:" << originalBaseFileName;
 
     bool canceled = false;
     if (ui->leSeparator->text().isEmpty())
