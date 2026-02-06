@@ -57,12 +57,20 @@ public:
     /// Loads plot settings from a `QSettings`.
     void loadSettings(QSettings* settings);
 
+    // Cursor accessors
+    bool cursorsEnabled() const;
+    double cursor1Position() const;
+    double cursor2Position() const;
+
 signals:
     void numOfSamplesChanged(int value);
     void yScaleChanged(bool autoScaled, double yMin = 0, double yMax = 1);
     void xScaleChanged(bool asIndex, double xMin = 0, double xMax = 1);
     void plotWidthChanged(double width);
     void lineThicknessChanged(int thickness);
+    void cursorsEnabledChanged(bool enabled);
+    void cursor1PositionChanged(double position);
+    void cursor2PositionChanged(double position);
 
 private:
     Ui::PlotControlPanel *ui;
@@ -92,6 +100,9 @@ private slots:
     void onXScaleChanged();
     void onPlotWidthChanged();
     void onColorSelect();
+    void onCursorsEnabledChanged(bool checked);
+    void onCursor1Changed(double value);
+    void onCursor2Changed(double value);
 };
 
 #endif // PLOTCONTROLPANEL_H

@@ -4,6 +4,7 @@ TODO
 remove docs/ from git repo
 
 ## serialplot fork ideas:
+ - [ ] qquick load buttons for settings. 
  - [ ] settings creator tool (gui) that lets you change
  - [ ] plot tab at bottom:  split into two sets of columns so you can see more at one time. 
  - [ ] window cursors:  overlay ac noise, dc noise, slope (linear regression best effort, 1st order), min, max, avg...

@@ -191,7 +191,12 @@ void PlotManager::onChannelInfoChanged(const QModelIndex &topLeft,
             plotWidgets[ci]->setVisible(visible);
             if (visible)
             {
+                plotWidgets[ci]->show();
                 plotWidgets[ci]->replot();
+            }
+            else
+            {
+                plotWidgets[ci]->hide();
             }
             syncScales();
         }
@@ -248,12 +253,21 @@ void PlotManager::setMulti(bool enabled)
         for (auto curve : curves)
         {
             auto plot = addPlotWidget();
-            plot->setVisible(curve->isVisible());
-            if (_stream != nullptr)
+            bool visible = curve->isVisible();
+            plot->setVisible(visible);
+            if (visible)
             {
-                plot->setDispChannels(QVector<const StreamChannel*>(1, _stream->channel(i)));
+                plot->show();
+                if (_stream != nullptr)
+                {
+                    plot->setDispChannels(QVector<const StreamChannel*>(1, _stream->channel(i)));
+                }
+                curve->attach(plot);
             }
-            curve->attach(plot);
+            else
+            {
+                plot->hide();
+            }
             i++;
         }
     }
@@ -640,6 +654,45 @@ void PlotManager::setLineThickness(int thickness)
     }
 
     replot();
+}
+
+void PlotManager::showCursors(bool show)
+{
+    for (auto plot : plotWidgets)
+    {
+        plot->showCursors(show);
+    }
+    
+    if (emptyPlot != NULL)
+    {
+        emptyPlot->showCursors(show);
+    }
+}
+
+void PlotManager::setCursor1Position(double position)
+{
+    for (auto plot : plotWidgets)
+    {
+        plot->setCursor1Position(position);
+    }
+    
+    if (emptyPlot != NULL)
+    {
+        emptyPlot->setCursor1Position(position);
+    }
+}
+
+void PlotManager::setCursor2Position(double position)
+{
+    for (auto plot : plotWidgets)
+    {
+        plot->setCursor2Position(position);
+    }
+    
+    if (emptyPlot != NULL)
+    {
+        emptyPlot->setCursor2Position(position);
+    }
 }
 
 void PlotManager::exportSvg(QString fileName) const

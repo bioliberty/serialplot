@@ -142,6 +142,16 @@ PlotControlPanel::PlotControlPanel(QWidget *parent) :
                 emit lineThicknessChanged(thickness);
             });
 
+    // cursor controls
+    connect(ui->cbShowCursors, &QCheckBox::toggled,
+            this, &PlotControlPanel::onCursorsEnabledChanged);
+    
+    connect(ui->spCursor1, SIGNAL(valueChanged(double)),
+            this, SLOT(onCursor1Changed(double)));
+    
+    connect(ui->spCursor2, SIGNAL(valueChanged(double)),
+            this, SLOT(onCursor2Changed(double)));
+
     // init scale range preset list
     for (int nbits = 8; nbits <= 24; nbits++) // signed binary formats
     {
@@ -460,6 +470,9 @@ void PlotControlPanel::saveSettings(QSettings* settings)
     settings->setValue(SG_Plot_YMax, yMax());
     settings->setValue(SG_Plot_YMin, yMin());
     settings->setValue(SG_Plot_LineThickness, ui->spLineThickness->value());
+    settings->setValue(SG_Plot_CursorsEnabled, cursorsEnabled());
+    settings->setValue(SG_Plot_Cursor1Position, cursor1Position());
+    settings->setValue(SG_Plot_Cursor2Position, cursor2Position());
     settings->endGroup();
 }
 
@@ -480,5 +493,56 @@ void PlotControlPanel::loadSettings(QSettings* settings)
     ui->spYmin->setValue(settings->value(SG_Plot_YMin, yMin()).toDouble());
     ui->spLineThickness->setValue(
         settings->value(SG_Plot_LineThickness, ui->spLineThickness->value()).toInt());
+    ui->cbShowCursors->setChecked(
+        settings->value(SG_Plot_CursorsEnabled, false).toBool());
+    ui->spCursor1->setValue(
+        settings->value(SG_Plot_Cursor1Position, 0.0).toDouble());
+    ui->spCursor2->setValue(
+        settings->value(SG_Plot_Cursor2Position, 0.0).toDouble());
     settings->endGroup();
+}
+
+bool PlotControlPanel::cursorsEnabled() const
+{
+    return ui->cbShowCursors->isChecked();
+}
+
+double PlotControlPanel::cursor1Position() const
+{
+    return ui->spCursor1->value();
+}
+
+double PlotControlPanel::cursor2Position() const
+{
+    return ui->spCursor2->value();
+}
+
+void PlotControlPanel::onCursorsEnabledChanged(bool checked)
+{
+    ui->lCursor1->setEnabled(checked);
+    ui->lCursor2->setEnabled(checked);
+    ui->spCursor1->setEnabled(checked);
+    ui->spCursor2->setEnabled(checked);
+    ui->lCursorDelta->setEnabled(checked);
+    ui->lCursorDeltaValue->setEnabled(checked);
+    
+    emit cursorsEnabledChanged(checked);
+}
+
+void PlotControlPanel::onCursor1Changed(double value)
+{
+    emit cursor1PositionChanged(value);
+    
+    // Update delta display
+    double delta = ui->spCursor2->value() - value;
+    ui->lCursorDeltaValue->setText(QString::number(delta, 'f', 3));
+}
+
+void PlotControlPanel::onCursor2Changed(double value)
+{
+    emit cursor2PositionChanged(value);
+    
+    // Update delta display
+    double delta = value - ui->spCursor1->value();
+    ui->lCursorDeltaValue->setText(QString::number(delta, 'f', 3));
 }

@@ -75,6 +75,12 @@ public slots:
     void setPlotWidth(double width);
     /// Set curve line thickness
     void setLineThickness(int thickness);
+    /// Show/hide horizontal cursors
+    void showCursors(bool show);
+    /// Set cursor 1 position
+    void setCursor1Position(double position);
+    /// Set cursor 2 position
+    void setCursor2Position(double position);
 
 private:
     bool isMulti;

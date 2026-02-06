@@ -189,6 +189,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&plotControlPanel, &PlotControlPanel::lineThicknessChanged,
             plotMan, &PlotManager::setLineThickness);
 
+    connect(&plotControlPanel, &PlotControlPanel::cursorsEnabledChanged,
+            plotMan, &PlotManager::showCursors);
+
+    connect(&plotControlPanel, &PlotControlPanel::cursor1PositionChanged,
+            plotMan, &PlotManager::setCursor1Position);
+
+    connect(&plotControlPanel, &PlotControlPanel::cursor2PositionChanged,
+            plotMan, &PlotManager::setCursor2Position);
+
     // plot toolbar signals
     QObject::connect(ui->actionClear, SIGNAL(triggered(bool)),
                      this, SLOT(clearPlot()));
@@ -239,6 +248,11 @@ MainWindow::MainWindow(QWidget *parent) :
                       plotControlPanel.xMin(), plotControlPanel.xMax());
     plotMan->setNumOfSamples(numOfSamples);
     plotMan->setPlotWidth(plotControlPanel.plotWidth());
+
+    // init cursors
+    plotMan->showCursors(plotControlPanel.cursorsEnabled());
+    plotMan->setCursor1Position(plotControlPanel.cursor1Position());
+    plotMan->setCursor2Position(plotControlPanel.cursor2Position());
 
     // init bps (bits per second) counter
     ui->statusBar->addPermanentWidget(&bpsLabel);

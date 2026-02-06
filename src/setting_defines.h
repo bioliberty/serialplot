@@ -113,6 +113,9 @@ const char SG_Plot_LegendPos[] = "legendPos";
 const char SG_Plot_MultiPlot[] = "multiPlot";
 const char SG_Plot_Symbols[] = "symbols";
 const char SG_Plot_LineThickness[] = "lineThickness";
+const char SG_Plot_CursorsEnabled[] = "cursorsEnabled";
+const char SG_Plot_Cursor1Position[] = "cursor1Position";
+const char SG_Plot_Cursor2Position[] = "cursor2Position";
 
 // command setting keys
 const char SG_Commands_Command[] = "command";

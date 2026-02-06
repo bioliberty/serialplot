@@ -32,6 +32,7 @@
 #include "zoomer.h"
 #include "scalezoomer.h"
 #include "plotsnapshotoverlay.h"
+#include "horizontalcursors.h"
 
 class Plot : public QwtPlot
 {
@@ -77,6 +78,12 @@ public slots:
 
     void setPlotWidth(double width);
 
+    // Cursor controls
+    void showCursors(bool show = true);
+    void setCursor1Position(double yValue);
+    void setCursor2Position(double yValue);
+    HorizontalCursors* cursors() { return horizontalCursors; }
+
 protected:
     /// update the display of symbols depending on `symbolSize`
     void updateSymbols();
@@ -96,6 +103,7 @@ private:
     QwtPlotTextLabel demoIndicator;
     QwtPlotTextLabel noChannelIndicator;
     ShowSymbols showSymbols;
+    HorizontalCursors* horizontalCursors;
 
     void resetAxes();
     void resizeEvent(QResizeEvent * event);

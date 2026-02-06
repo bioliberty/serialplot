@@ -42,6 +42,7 @@ SOURCES += \
     src/mainwindow.cpp \
     src/portcontrol.cpp \
     src/plot.cpp \
+    src/horizontalcursors.cpp \
     src/zoomer.cpp \
     src/scrollzoomer.cpp \
     src/scrollbar.cpp \
@@ -102,6 +103,7 @@ HEADERS += \
     src/mainwindow.h \
     src/portcontrol.h \
     src/plot.h \
+    src/horizontalcursors.h \
     src/hidabletabwidget.h \
     src/framebuffer.h \
     src/scalepicker.h \

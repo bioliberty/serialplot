@@ -64,6 +64,7 @@ qt_add_executable(${PROGRAM_NAME} WIN32
   src/mainwindow.cpp
   src/portcontrol.cpp
   src/plot.cpp
+  src/horizontalcursors.cpp
   src/zoomer.cpp
   src/scrollzoomer.cpp
   src/scrollbar.cpp

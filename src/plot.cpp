@@ -84,11 +84,15 @@ Plot::Plot(QWidget* parent) :
     noChannelIndicator.setText(noChannelText);
     noChannelIndicator.hide();
     noChannelIndicator.attach(this);
+
+    // init horizontal cursors
+    horizontalCursors = new HorizontalCursors(this, this);
 }
 
 Plot::~Plot()
 {
     if (snapshotOverlay != NULL) delete snapshotOverlay;
+    if (horizontalCursors != NULL) delete horizontalCursors;
 }
 
 void Plot::setDispChannels(QVector<const StreamChannel*> channels)
@@ -208,6 +212,11 @@ void Plot::darkBackground(bool enabled)
         sZoomer.setPickerPen(QPen(Qt::white));
 
         legend.setTextPen(QPen(Qt::white));
+
+        if (horizontalCursors != NULL)
+        {
+            horizontalCursors->setDarkBackground(true);
+        }
     }
     else
     {
@@ -223,6 +232,11 @@ void Plot::darkBackground(bool enabled)
         sZoomer.setPickerPen(QPen(Qt::black));
 
         legend.setTextPen(QPen(Qt::black));
+
+        if (horizontalCursors != NULL)
+        {
+            horizontalCursors->setDarkBackground(false);
+        }
     }
     updateSymbols();
     replot();
@@ -346,4 +360,28 @@ void Plot::setPlotWidth(double width)
 {
     plotWidth = width;
     zoomer.setHViewSize(width);
+}
+
+void Plot::showCursors(bool show)
+{
+    if (horizontalCursors != NULL)
+    {
+        horizontalCursors->setEnabled(show);
+    }
+}
+
+void Plot::setCursor1Position(double yValue)
+{
+    if (horizontalCursors != NULL)
+    {
+        horizontalCursors->setCursor1Position(yValue);
+    }
+}
+
+void Plot::setCursor2Position(double yValue)
+{
+    if (horizontalCursors != NULL)
+    {
+        horizontalCursors->setCursor2Position(yValue);
+    }
 }
