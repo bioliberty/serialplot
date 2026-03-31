@@ -22,22 +22,11 @@ include(ExternalProject)
 ExternalProject_Add(QWT
   PREFIX qwt
   URL https://sourceforge.net/projects/qwt/files/qwt/6.3.0/qwt-6.3.0.tar.bz2
-  # enable static build and disable unwanted components
-  PATCH_COMMAND sed -i -r -e "s/QWT_CONFIG\\s*\\+=\\s*QwtDll/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtPolar/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtWidgets/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtSvg/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtOpenGL/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtDesigner/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtDesignerSelfContained/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtExamples/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtPlayground/#&/"
-                          -e "s/QWT_CONFIG\\s*\\+=\\s*QwtTests/#&/"
-						  -e "s|QWT_INSTALL_PREFIX\\s*=.*|QWT_INSTALL_PREFIX = <INSTALL_DIR>|"
-                             <SOURCE_DIR>/qwtconfig.pri
-                          -e "s/(CONFIG\\s*\\+=\\s*)debug_and_release/\\1release/"
-                          -e "s/(CONFIG\\s*\\+=\\s*)build_all/#&/"
-                             <SOURCE_DIR>/qwtbuild.pri
+  # enable static build and disable unwanted components (cross-platform, no sed required)
+  PATCH_COMMAND ${CMAKE_COMMAND}
+    -DSOURCE_DIR=<SOURCE_DIR>
+    -DINSTALL_DIR=<INSTALL_DIR>
+    -P "${CMAKE_SOURCE_DIR}/cmake/modules/PatchQwt.cmake"
   UPDATE_COMMAND ""
   CONFIGURE_COMMAND qmake6 <SOURCE_DIR>/qwt.pro
   )
