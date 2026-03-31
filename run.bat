@@ -1,7 +1,7 @@
 @echo off
 REM Run SerialPlot with correct Qt DLLs
 
-set QT_DIR=C:\Qt\6.10.1\mingw_64
+set QT_DIR=C:\Qt\6.11.0\mingw_64
 set MINGW_DIR=C:\Qt\Tools\mingw1310_64
 
 REM Set PATH to use ONLY Qt and MinGW from the correct location

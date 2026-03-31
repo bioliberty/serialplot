@@ -7,9 +7,10 @@ echo Building SerialPlot
 echo ========================================
 
 REM Set Qt and MinGW paths
-set QT_DIR=C:\Qt\6.10.1\mingw_64
+set QT_DIR=C:\Qt\6.11.0\mingw_64
 set MINGW_DIR=C:\Qt\Tools\mingw1310_64
-set PATH=%MINGW_DIR%\bin;%QT_DIR%\bin;%PATH%
+set CMAKE_DIR=C:\Qt\Tools\CMake_64
+set PATH=%MINGW_DIR%\bin;%QT_DIR%\bin;%CMAKE_DIR%\bin;%PATH%
 
 REM Create build directory if it doesn't exist
 if not exist build mkdir build
